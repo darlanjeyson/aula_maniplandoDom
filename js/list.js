@@ -71,20 +71,80 @@ const pasteis = [
   }
 ];
 
-function renderProducts(){
-    let body = document.querySelector("body")
-    let tbody = document.querySelector("tbody")
-
-    for (let index = 0; index < pasteis.length; index++){
-        let tr = document.createElement("tr")
-        tr.innerHTML = `
+let body = document.querySelector("body")
+function renderProducts() {
+  let tbody = document.querySelector("tbody")
+  for (let index = 0; index < pasteis.length; index++) {
+    let tr = document.createElement("tr")
+    tr.innerHTML = `
             <td>${pasteis[index].id}</td>
             <td>${pasteis[index].nome}</td>
             <td>${pasteis[index].preco}</td>
             <td>${pasteis[index].ingredientes}</td>
             <td>${pasteis[index].tamanho}</td>
+            <td>
+                <button class="btn btn-warning">Editar<button/>
+                <button class="btn btn-danger">Excluir<button/>
+            <td/>
         `
-        tbody.appendChild(tr)
-    }
+    tbody.appendChild(tr)
+  }
 }
 renderProducts()
+
+function renderModal() {
+  let div = document.createElement("div")
+  div.classList.add("modal-overlay")
+  div.innerHTML = `
+<div id="createModal" class="modal-content">
+    <form action="">
+      <div class="form-group">
+      <input type="text" class="form-control" placeholder="Digite seu Id" aria-label="Id" aria-describedby="basic-addon1" id="inputId">
+      <div/>
+      <input type="text" class="form-control" placeholder="Digite seu nome" aria-label="inputNome" aria-describedby="basic-addon1" id="inputNome">
+      <div/>
+      <input type="text" class="form-control" placeholder="Digite o preço" aria-label="inputPreco" aria-describedby="basic-addon1" id="inputPreco">
+      <input type="text" class="form-control" placeholder="Digite os ingredientes" aria-label="inputIngredientes" aria-describedby="basic-addon1" id="inputIngredientes">
+      <input type="text" class="form-control" placeholder="Digite o tamanho" aria-label="inputTamanho" aria-describedby="basic-addon1" id="inputTamanho">
+    </form>
+
+    <div id="div-buttons">
+    <button onclick="removeModal()" type="button" class="btn btn-secondary">Fechar</button>
+
+    <button onclick="criarPastel()" type="button" class="btn btn-primary">Enviar</button>
+
+    </div>
+
+</div>
+`
+  body.appendChild(div)
+}
+
+function removeModal() {
+  let createModal = document.querySelector(".modal-overlay")
+  body.removeChild(createModal)
+}
+
+function criarPastel() {
+  let id = document.querySelector("#inputId").value
+  let nome = document.querySelector("#inputNome").value
+  let preco = document.querySelector("#inputPreco").value
+  let ingredientes = document.querySelector("#inputIngredientes").value
+  let tamanho = document.querySelector("#inputTamanho").value
+  let tbody = document.querySelector("tbody")
+
+  pasteis.push({
+    id: id,
+    nome: nome,
+    preco: preco,
+    ingredientes: ingredientes,
+    tamanho: tamanho
+
+  })
+
+  removeModal()
+  tbody.innerHTML = ""
+  renderProducts()
+
+ 
+}
