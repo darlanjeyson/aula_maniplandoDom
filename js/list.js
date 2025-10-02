@@ -84,7 +84,7 @@ function renderProducts() {
             <td>${pasteis[index].tamanho}</td>
             <td>
                 <button class="btn btn-warning">Editar<button/>
-                <button class="btn btn-danger">Excluir<button/>
+                <button onclick="deletarPasteis(${pasteis[index].id})"class="btn btn-danger">Excluir<button/>
             <td/>
         `
     tbody.appendChild(tr)
@@ -92,6 +92,16 @@ function renderProducts() {
 }
 renderProducts()
 
+function deletarPasteis(id) {
+  let tbody = document.querySelector("tbody")
+  let pastel = pasteis.find((pastel) => pastel.id === id)
+  console.log(pastel);
+  
+  pasteis.splice(pastel , 1)
+  tbody.innerHTML = ""
+  renderProducts()
+
+}
 function renderModal() {
   let div = document.createElement("div")
   div.classList.add("modal-overlay")
@@ -120,6 +130,7 @@ function renderModal() {
   body.appendChild(div)
 }
 
+
 function removeModal() {
   let createModal = document.querySelector(".modal-overlay")
   body.removeChild(createModal)
@@ -146,5 +157,5 @@ function criarPastel() {
   tbody.innerHTML = ""
   renderProducts()
 
- 
+
 }
